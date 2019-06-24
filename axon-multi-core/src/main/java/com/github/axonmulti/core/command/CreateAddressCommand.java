@@ -9,10 +9,10 @@ import java.util.UUID;
 public class CreateAddressCommand {
 
     @TargetAggregateIdentifier
-    private UUID addressId;
+    private final UUID addressId;
 
-    private String streetAndNumber;
+    private final String streetAndNumber;
 
-    private UUID personId;
+    private final String zipCode;
 
 }

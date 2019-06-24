@@ -11,7 +11,6 @@ The idea is to have separate Axon components:
 - A microservice on top of a Saga component which will manage Person/Address assignments
 
 Each component stores its own information only in its own local database (H2).
-Each microservice is responsible for CQRS implementation.
 
 
 ### Links and resources used in this project
@@ -19,5 +18,8 @@ Each microservice is responsible for CQRS implementation.
 - [Axon Reference Guide, Distributing the command bus](https://docs.axoniq.io/reference-guide/configuring-infrastructure-components/command-processing/command-dispatching#distributing-the-command-bus)
 - [Axon Reference Guide, Spring Cloud](https://docs.axoniq.io/reference-guide/extensions/spring-cloud)
 - [Introduction to Spring Cloud Netflix – Eureka](https://www.baeldung.com/spring-cloud-netflix-eureka)
+- [Error Handling for REST with Spring](https://www.baeldung.com/exception-handling-for-rest-with-spring)
+- [Build a REST API with Spring](http://www.canchito-dev.com/public/blog/2017/04/22/build-a-rest-api-with-spring/)
+- [Spring Boot with Docker](https://spring.io/guides/gs/spring-boot-docker/)
 - [saikatkar/sample-axon-kafka](https://github.com/saikatkar/sample-axon-kafka)
 - [sfav/axon-springboot-cloud](https://github.com/sfav/axon-springboot-cloud)

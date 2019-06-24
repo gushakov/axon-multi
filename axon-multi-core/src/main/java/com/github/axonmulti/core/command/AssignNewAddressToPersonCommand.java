@@ -6,11 +6,13 @@ import org.axonframework.commandhandling.TargetAggregateIdentifier;
 import java.util.UUID;
 
 @Value
-public class CreatePersonCommand {
+public class AssignNewAddressToPersonCommand {
 
     @TargetAggregateIdentifier
     private final UUID personId;
 
-    private final String fullName;
+    private final String streetAndNumber;
+
+    private final String zipCode;
 
 }

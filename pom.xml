@@ -13,6 +13,7 @@
         <module>axon-multi-eureka</module>
         <module>axon-multi-person</module>
         <module>axon-multi-address</module>
+        <module>axon-multi-saga</module>
     </modules>
 
     <packaging>pom</packaging>

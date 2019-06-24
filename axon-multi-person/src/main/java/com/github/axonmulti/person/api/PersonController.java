@@ -1,7 +1,7 @@
 package com.github.axonmulti.person.api;
 
 import com.github.axonmulti.core.command.CreatePersonCommand;
-import com.github.axonmulti.person.dto.Person;
+import com.github.axonmulti.person.dto.PersonDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -24,8 +24,8 @@ public class PersonController {
     private final EventBus eventBus;
 
     @PostMapping("/persons")
-    public Future<UUID> createPerson(@RequestBody @Valid Person personDto) {
-        log.debug("[API] Creating a person: {}", personDto);
+    public Future<UUID> createPerson(@RequestBody @Valid PersonDto personDto) {
+        log.debug("[Person][API] Creating a person: {}", personDto);
         return commandGateway.send(new CreatePersonCommand(personDto.getPersonId(), personDto.getFullName()));
     }
 

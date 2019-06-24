@@ -7,8 +7,8 @@ import java.util.UUID;
 @Value
 public class PersonCreatedEvent {
 
-    private UUID personId;
+    private final UUID personId;
 
-    private String fullName;
+    private final String fullName;
 
 }
