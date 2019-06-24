@@ -5,6 +5,7 @@ import com.github.axonmulti.person.dto.Person;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.eventhandling.EventBus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,8 +21,10 @@ public class PersonController {
 
     private final CommandGateway commandGateway;
 
+    private final EventBus eventBus;
+
     @PostMapping("/persons")
-    public Future<UUID> createPerson(@RequestBody @Valid Person personDto){
+    public Future<UUID> createPerson(@RequestBody @Valid Person personDto) {
         log.debug("[API] Creating a person: {}", personDto);
         return commandGateway.send(new CreatePersonCommand(personDto.getPersonId(), personDto.getFullName()));
     }

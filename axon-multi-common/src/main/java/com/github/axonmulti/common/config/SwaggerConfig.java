@@ -1,4 +1,4 @@
-package com.github.axonmulti.person.config;
+package com.github.axonmulti.common.config;
 
 import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;
