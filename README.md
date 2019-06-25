@@ -1,6 +1,8 @@
 Axon Multi-services
 ---
 
+:construction: **Attention: under construction** :construction:
+
 Separate Axon microservices communicating via a distributed command bus (Eureka) and a distributed event bus (RabbitMQ).
 No Axon server, no event store, event sourcing is not used.
 
