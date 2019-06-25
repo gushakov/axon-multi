@@ -48,7 +48,7 @@
 
             <!--
                 Normally, we would use a starter for AMQP extension: axon-amqp-spring-boot-starter,
-                But it does not work with Axon 4.0-M2, so as a workaround we are using
+                but it does not work with Axon 4.0-M2, so as a workaround we are using
                 a local configuration file: com.github.axonmulti.common.config.AmqpAutoConfiguration
                 with axon-amqp library.
             -->

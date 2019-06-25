@@ -5,12 +5,62 @@ services:
     container_name: rabbitmq
     image: rabbitmq:3-management
     hostname: rabbitmq
-    expose:
-      - 5672
-      - 15672
     ports:
       - "5672:5672"
       - "15672:15672"
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
+
+  eureka:
+    container_name: eureka
+    build:
+      context: ./axon-multi-eureka
+    ports:
+      - "8761:8761"
+
+  person:
+    container_name: person
+    build:
+      context: ./axon-multi-person
+    ports:
+      - "8080:8080"
+    environment:
+      - EUREKA_HOST=eureka
+      - RABBITMQ_HOST=rabbitmq
+    command: >
+      dockerize
+      -wait http://rabbitmq:15672 -timeout 60s
+      -wait http://eureka:8761 -timeout 60s
+      java -Djava.security.egd=file:/dev/./urandom -jar /app.jar
+
+  address:
+    container_name: address
+    build:
+      context: ./axon-multi-address
+    ports:
+      - "8081:8081"
+    environment:
+      - EUREKA_HOST=eureka
+      - RABBITMQ_HOST=rabbitmq
+    command: >
+      dockerize
+      -wait http://rabbitmq:15672 -timeout 60s
+      -wait http://eureka:8761 -timeout 60s
+      java -Djava.security.egd=file:/dev/./urandom -jar /app.jar
+
+  saga:
+    container_name: saga
+    build:
+      context: ./axon-multi-saga
+    ports:
+      - "8082:8082"
+    environment:
+      - EUREKA_HOST=eureka
+      - RABBITMQ_HOST=rabbitmq
+    command: >
+      dockerize
+      -wait http://rabbitmq:15672 -timeout 60s
+      -wait http://eureka:8761 -timeout 60s
+      java -Djava.security.egd=file:/dev/./urandom -jar /app.jar
+
