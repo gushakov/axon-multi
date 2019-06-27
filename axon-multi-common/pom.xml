@@ -33,7 +33,6 @@
         <dependency>
             <groupId>org.axonframework</groupId>
             <artifactId>axon-distributed-commandbus-springcloud</artifactId>
-            <version>${axon.version}</version>
         </dependency>
 
         <dependency>
@@ -42,7 +41,7 @@
         </dependency>
 
         <dependency>
-            <groupId>org.axonframework.extensions.amqp</groupId>
+            <groupId>org.axonframework</groupId>
             <artifactId>axon-amqp</artifactId>
         </dependency>
 

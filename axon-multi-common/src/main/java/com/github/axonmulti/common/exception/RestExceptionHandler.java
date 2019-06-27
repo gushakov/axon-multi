@@ -24,6 +24,7 @@ public class RestExceptionHandler {
     @ResponseBody
     public RestError handleError(Exception ex){
         log.error("[Rest Error] Error: " + ex.getCause());
+        ex.printStackTrace();
         return new RestError(ex.getMessage(), ExceptionUtils.getRootCauseMessage(ex));
     }
 

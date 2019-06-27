@@ -23,8 +23,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <axon.version>4.0-M2</axon.version>
-        <axon.amqp.version>4.0</axon.amqp.version>
-        <spring.boot.version>2.0.4.RELEASE</spring.boot.version>
+        <spring.boot.version>2.0.0.RELEASE</spring.boot.version>
         <springfox.swagger2.version>2.9.2</springfox.swagger2.version>
         <spring.cloud.version>Finchley.RELEASE</spring.cloud.version>
     </properties>
@@ -40,17 +39,23 @@
                 <version>${axon.version}</version>
             </dependency>
 
+
             <dependency>
                 <groupId>org.axonframework</groupId>
                 <artifactId>axon-spring-boot-starter</artifactId>
                 <version>${axon.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.axonframework</groupId>
+                <artifactId>axon-distributed-commandbus-springcloud</artifactId>
+                <version>${axon.version}</version>
+            </dependency>
+
+
             <!--
-                Normally, we would use a starter for AMQP extension: axon-amqp-spring-boot-starter,
-                but it does not work with Axon 4.0-M2, so as a workaround we are using
-                a local configuration file: com.github.axonmulti.common.config.AmqpAutoConfiguration
-                with axon-amqp library.
+                For 4.1 version, we would use a starter for AMQP extension: axon-amqp-spring-boot-starter,
+                but it does not work with Axon 4.0-M2.
             -->
 
             <!--
@@ -62,9 +67,9 @@
             -->
 
             <dependency>
-                <groupId>org.axonframework.extensions.amqp</groupId>
+                <groupId>org.axonframework</groupId>
                 <artifactId>axon-amqp</artifactId>
-                <version>${axon.amqp.version}</version>
+                <version>${axon.version}</version>
             </dependency>
 
             <dependency>
@@ -106,6 +111,18 @@
                 </excludes>
             </resource>
         </resources>
+
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+
     </build>
 
 </project>

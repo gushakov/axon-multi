@@ -15,9 +15,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 @SpringBootApplication(scanBasePackages = {"com.github.axonmulti.common", "com.github.axonmulti.address"},
         exclude = {ErrorMvcAutoConfiguration.class,
                 JpaAutoConfiguration.class,
-                JdbcAutoConfiguration.class,
-                AMQPAutoConfiguration.class
-        })
+                JdbcAutoConfiguration.class})
 @EnableEurekaClient
 @Slf4j
 public class AddressSpringBootApplication implements CommandLineRunner {

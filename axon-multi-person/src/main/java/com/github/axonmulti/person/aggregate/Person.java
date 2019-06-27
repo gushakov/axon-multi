@@ -17,6 +17,8 @@ import org.axonframework.spring.stereotype.Aggregate;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 
 @Aggregate
 @Entity
@@ -33,6 +35,9 @@ public class Person {
 
     private UUID addressId;
 
+    // do not store this future with the aggregate
+    private transient CompletableFuture<UUID> addressAssigned;
+
     public Person() {
     }
 
@@ -43,11 +48,13 @@ public class Person {
     }
 
     @CommandHandler
-    public void handle(AssignNewAddressToPersonCommand command){
+    public Future<UUID> handle(AssignNewAddressToPersonCommand command){
         log.debug("[Person][Aggregate][Command] Processing assign new address to a person command: {}", command);
         // should start a saga
         AggregateLifecycle.apply(new NewAddressToPersonAssignmentRequestedEvent(command.getPersonId(),
                 command.getStreetAndNumber(), command.getZipCode()));
+        addressAssigned = CompletableFuture.completedFuture(UUID.randomUUID());
+        return addressAssigned;
     }
 
     @EventHandler
