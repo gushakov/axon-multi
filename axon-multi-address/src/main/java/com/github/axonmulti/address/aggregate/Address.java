@@ -8,6 +8,7 @@ import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.AggregateIdentifier;
 import org.axonframework.commandhandling.model.AggregateLifecycle;
 import org.axonframework.config.ProcessingGroup;
+import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.spring.stereotype.Aggregate;
 
 import javax.persistence.Entity;
@@ -40,9 +41,11 @@ public class Address {
                 command.getStreetAndNumber(), command.getZipCode()));
     }
 
+    @EventHandler
     public void on(PrivateAddressCreatedEvent event){
         log.debug("[Address][Aggregate][Event] Processing new private address created event: {}", event);
         this.addressId = event.getAddressId();
+        this.personId = event.getPersonId();
         this.streetAndNumber = event.getStreetAndNumber();
         this.zipCode = event.getZipCode();
     }

@@ -9,9 +9,6 @@ import java.util.UUID;
 public class AddressDto {
 
     @NotNull
-    private final String addressId;
-
-    @NotNull
     private final String streetAndNumber;
 
     @NotNull

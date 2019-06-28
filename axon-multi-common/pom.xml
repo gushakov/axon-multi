@@ -16,7 +16,7 @@
         <dependency>
             <groupId>com.github</groupId>
             <artifactId>axon-multi-core</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
 
         <dependency>

@@ -51,18 +51,3 @@ services:
       -wait http://eureka:8761 -timeout 60s
       java -Djava.security.egd=file:/dev/./urandom -jar /app.jar
 
-  saga:
-    container_name: saga
-    build:
-      context: ./axon-multi-saga
-    ports:
-      - "8082:8082"
-    environment:
-      - EUREKA_HOST=eureka
-      - RABBITMQ_HOST=rabbitmq
-    command: >
-      dockerize
-      -wait http://rabbitmq:15672 -timeout 60s
-      -wait http://eureka:8761 -timeout 60s
-      java -Djava.security.egd=file:/dev/./urandom -jar /app.jar
-

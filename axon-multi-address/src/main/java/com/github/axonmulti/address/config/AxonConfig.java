@@ -1,4 +1,4 @@
-package com.github.axonmulti.common.config;
+package com.github.axonmulti.address.config;
 
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,7 @@ public class AxonConfig {
 
     @Bean
     public Queue queue() {
-        return QueueBuilder.durable("axonQueue").build();
+        return QueueBuilder.durable("addressQueue").build();
     }
 
     // Binding
@@ -55,7 +55,7 @@ public class AxonConfig {
     public SpringAMQPMessageSource axonQueueMessageSource(AMQPMessageConverter messageConverter) {
         return new SpringAMQPMessageSource(messageConverter) {
 
-            @RabbitListener(queues = "axonQueue")
+            @RabbitListener(queues = "addressQueue")
             @Transactional
             @Override
             public void onMessage(Message message, Channel channel) {
