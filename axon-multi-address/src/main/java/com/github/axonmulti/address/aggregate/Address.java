@@ -1,7 +1,7 @@
 package com.github.axonmulti.address.aggregate;
 
-import com.github.axonmulti.core.command.CreateAddressCommand;
-import com.github.axonmulti.core.event.AddressCreatedEvent;
+import com.github.axonmulti.core.command.CreatePrivateAddressCommand;
+import com.github.axonmulti.core.event.PrivateAddressCreatedEvent;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandHandler;
@@ -12,7 +12,6 @@ import org.axonframework.spring.stereotype.Aggregate;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.util.UUID;
 
 @Aggregate
 @Entity
@@ -25,6 +24,8 @@ public class Address {
     @AggregateIdentifier
     private String addressId;
 
+    private String personId;
+
     private String streetAndNumber;
 
     private String zipCode;
@@ -33,15 +34,14 @@ public class Address {
     }
 
     @CommandHandler
-    public Address(CreateAddressCommand command){
-        log.debug("[Address][Aggregate][Command] Processing create new address command: {}", command);
-        AggregateLifecycle.apply(new AddressCreatedEvent(command.getAddressId(),
+    public Address(CreatePrivateAddressCommand command){
+        log.debug("[Address][Aggregate][Command] Processing create new private address command: {}", command);
+        AggregateLifecycle.apply(new PrivateAddressCreatedEvent(command.getAddressId(), command.getPersonId(),
                 command.getStreetAndNumber(), command.getZipCode()));
     }
 
-    public void on(AddressCreatedEvent event){
-        log.debug("[Address][Aggregate][Event] Processing address created event: {}", event);
-
+    public void on(PrivateAddressCreatedEvent event){
+        log.debug("[Address][Aggregate][Event] Processing new private address created event: {}", event);
         this.addressId = event.getAddressId();
         this.streetAndNumber = event.getStreetAndNumber();
         this.zipCode = event.getZipCode();

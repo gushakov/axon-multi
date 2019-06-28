@@ -3,13 +3,11 @@ package com.github.axonmulti.core.command;
 import lombok.Value;
 import org.axonframework.commandhandling.TargetAggregateIdentifier;
 
-import java.util.UUID;
-
 @Value
-public class CreateAddressCommand {
+public class RequestPrivateAddressAssignmentCommand {
 
     @TargetAggregateIdentifier
-    private final String addressId;
+    private final String personId;
 
     private final String streetAndNumber;
 

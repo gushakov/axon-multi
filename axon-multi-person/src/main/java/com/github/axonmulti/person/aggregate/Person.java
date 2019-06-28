@@ -1,24 +1,25 @@
 package com.github.axonmulti.person.aggregate;
 
 
-import com.github.axonmulti.core.command.AssignNewAddressToPersonCommand;
+import com.github.axonmulti.core.command.AssignPrivateAddressCommand;
 import com.github.axonmulti.core.command.CreatePersonCommand;
-import com.github.axonmulti.core.event.NewAddressToPersonAssignmentRequestedEvent;
+import com.github.axonmulti.core.command.RequestPrivateAddressAssignmentCommand;
 import com.github.axonmulti.core.event.PersonCreatedEvent;
+import com.github.axonmulti.core.event.PrivateAddressAssignmentRequestedEvent;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.AggregateIdentifier;
-import org.axonframework.commandhandling.model.AggregateLifecycle;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.spring.stereotype.Aggregate;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
+
+import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
 
 @Aggregate
 @Entity
@@ -35,26 +36,25 @@ public class Person {
 
     private String addressId;
 
-    // do not store this future with the aggregate
-    private transient CompletableFuture<String> addressAssigned;
 
     public Person() {
     }
 
     @CommandHandler
     public Person(CreatePersonCommand command){
-        log.debug("[Person][Aggregate][Command] Processing create a new person command: {}", command);
-        AggregateLifecycle.apply(new PersonCreatedEvent(command.getPersonId(), command.getFullName()));
+        log.debug("[Person][Aggregate][Command] Creating new person: {}", command);
+        apply(new PersonCreatedEvent(command.getPersonId(), command.getFullName()));
     }
 
     @CommandHandler
-    public Future<String> handle(AssignNewAddressToPersonCommand command){
-        log.debug("[Person][Aggregate][Command] Processing assign new address to a person command: {}", command);
+    public void handle(RequestPrivateAddressAssignmentCommand command){
+        log.debug("[Person][Aggregate][Command] Private address assignment requested: {}", command);
         // should start a saga
-        AggregateLifecycle.apply(new NewAddressToPersonAssignmentRequestedEvent(command.getPersonId(),
-                command.getStreetAndNumber(), command.getZipCode()));
-        addressAssigned = CompletableFuture.completedFuture(UUID.randomUUID().toString());
-        return addressAssigned;
+        apply(new PrivateAddressAssignmentRequestedEvent(UUID.randomUUID().toString(),
+                command.getPersonId(),
+                command.getStreetAndNumber(),
+                command.getZipCode()));
+
     }
 
     @EventHandler

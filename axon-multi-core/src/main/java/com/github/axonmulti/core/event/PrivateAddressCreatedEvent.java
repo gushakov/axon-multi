@@ -2,12 +2,12 @@ package com.github.axonmulti.core.event;
 
 import lombok.Value;
 
-import java.util.UUID;
-
 @Value
-public class AddressCreatedEvent {
+public class PrivateAddressCreatedEvent {
 
     private final String addressId;
+
+    private final String personId;
 
     private final String streetAndNumber;
 

@@ -18,8 +18,8 @@ services:
       context: ./axon-multi-eureka
     ports:
       - "8761:8761"
-    volumes:
-      - ./axon-multi-eureka/target/axon-multi-eureka-1.0-SNAPSHOT.jar:/app.jar
+#    volumes:
+#      - ./axon-multi-eureka/target/axon-multi-eureka-1.0-SNAPSHOT.jar:/app.jar
 
   person:
     container_name: person

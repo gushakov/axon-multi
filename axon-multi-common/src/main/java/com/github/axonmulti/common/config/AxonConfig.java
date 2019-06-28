@@ -10,27 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionCallback;
-import org.springframework.transaction.support.TransactionTemplate;
 
-// Scan the core artifacts: commands, events, queries from a base package
+// Scan the core artifacts: commands, events, queries from the core package
 // in the core module
 @Configuration
 @ComponentScan(basePackages = {"com.github.axonmulti.core"})
 @Slf4j
 public class AxonConfig {
-
-
-    // This is not needed in 4.1.1
-/*
-    @Bean
-    public EntityManagerProvider entityManagerProvider() {
-        return new ContainerManagedEntityManagerProvider();
-    }
-*/
-
 
     // Exchange
 
