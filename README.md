@@ -8,9 +8,9 @@ No Axon server, no event store, event sourcing is not used.
 
 The idea is to have separate Axon components:
 
-- A microservice on top of `Person` aggregate
+- A microservice on top of `Person` aggregate (with a saga component)
 - A microservice on top of `Address` aggregate
-- A microservice on top of a Saga component which will manage Person/Address assignments
+- A microservice on top of a projection handling component for Person/Address summary
 
 Each component stores its own information only in its own local database (H2).
 
