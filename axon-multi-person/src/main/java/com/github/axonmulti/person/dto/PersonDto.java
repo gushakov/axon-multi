@@ -9,7 +9,7 @@ import java.util.UUID;
 public class PersonDto {
 
     @NotNull
-    private final UUID personId;
+    private final String personId;
 
     @NotNull
     private final String fullName;

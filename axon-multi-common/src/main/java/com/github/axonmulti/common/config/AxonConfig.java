@@ -4,14 +4,16 @@ import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.amqp.eventhandling.AMQPMessageConverter;
 import org.axonframework.amqp.eventhandling.spring.SpringAMQPMessageSource;
-import org.axonframework.common.jpa.ContainerManagedEntityManagerProvider;
-import org.axonframework.common.jpa.EntityManagerProvider;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
 
 // Scan the core artifacts: commands, events, queries from a base package
 // in the core module
@@ -22,10 +24,12 @@ public class AxonConfig {
 
 
     // This is not needed in 4.1.1
+/*
     @Bean
     public EntityManagerProvider entityManagerProvider() {
         return new ContainerManagedEntityManagerProvider();
     }
+*/
 
 
     // Exchange
@@ -65,6 +69,7 @@ public class AxonConfig {
         return new SpringAMQPMessageSource(messageConverter) {
 
             @RabbitListener(queues = "axonQueue")
+            @Transactional
             @Override
             public void onMessage(Message message, Channel channel) {
                 log.debug("[AMQP] Processing message: {}, on channel: {}", message, channel);

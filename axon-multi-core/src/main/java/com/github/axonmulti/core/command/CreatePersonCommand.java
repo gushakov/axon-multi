@@ -9,7 +9,7 @@ import java.util.UUID;
 public class CreatePersonCommand {
 
     @TargetAggregateIdentifier
-    private final UUID personId;
+    private final String personId;
 
     private final String fullName;
 

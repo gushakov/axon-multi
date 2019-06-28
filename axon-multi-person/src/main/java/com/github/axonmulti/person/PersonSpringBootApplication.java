@@ -9,9 +9,11 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 // We are not using event sourcing, so exclude event persistence configuration.
 @SpringBootApplication(scanBasePackages = {"com.github.axonmulti.common", "com.github.axonmulti.person"},
-        exclude = {ErrorMvcAutoConfiguration.class,
-                JpaAutoConfiguration.class,
-                JdbcAutoConfiguration.class})
+        exclude = {ErrorMvcAutoConfiguration.class
+//                ,
+//                JpaAutoConfiguration.class,
+//                JdbcAutoConfiguration.class
+})
 @EnableEurekaClient
 public class PersonSpringBootApplication {
 

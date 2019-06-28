@@ -9,7 +9,7 @@ import java.util.UUID;
 public class AssignNewAddressToPersonCommand {
 
     @TargetAggregateIdentifier
-    private final UUID personId;
+    private final String personId;
 
     private final String streetAndNumber;
 

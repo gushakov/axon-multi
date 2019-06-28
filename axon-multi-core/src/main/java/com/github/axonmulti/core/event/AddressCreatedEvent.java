@@ -7,7 +7,7 @@ import java.util.UUID;
 @Value
 public class AddressCreatedEvent {
 
-    private final UUID addressId;
+    private final String addressId;
 
     private final String streetAndNumber;
 

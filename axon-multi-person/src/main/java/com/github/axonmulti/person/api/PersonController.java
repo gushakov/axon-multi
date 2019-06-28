@@ -29,10 +29,9 @@ public class PersonController {
         return commandGateway.send(new CreatePersonCommand(personDto.getPersonId(), personDto.getFullName()));
     }
     @PostMapping("/person/{personId}/address")
-    public Future<UUID> addNewAddressToPerson(@RequestParam UUID personId, @RequestBody @Valid AddressDto dto) {
+    public Future<String> addNewAddressToPerson(@RequestParam String personId, @RequestBody @Valid AddressDto dto) {
         log.debug("[Person][API] Processing request to add a new address to a person: {}, address: {}", personId, dto);
-        return commandGateway.send(new AssignNewAddressToPersonCommand(
-                personId, dto.getStreetAndNumber(), dto.getZipCode()
+        return commandGateway.send(new AssignNewAddressToPersonCommand(personId, dto.getStreetAndNumber(), dto.getZipCode()
         ));
     }
 

@@ -7,7 +7,7 @@ import java.util.UUID;
 @Value
 public class NewAddressToPersonAssignmentRequestedEvent {
 
-    private final UUID personId;
+    private final String personId;
 
     private final String streetAndNumber;
 

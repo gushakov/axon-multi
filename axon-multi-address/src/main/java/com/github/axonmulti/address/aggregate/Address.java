@@ -23,7 +23,7 @@ public class Address {
 
     @Id
     @AggregateIdentifier
-    private UUID addressId;
+    private String addressId;
 
     private String streetAndNumber;
 

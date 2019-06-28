@@ -9,7 +9,7 @@ import java.util.UUID;
 public class AddressDto {
 
     @NotNull
-    private final UUID addressId;
+    private final String addressId;
 
     @NotNull
     private final String streetAndNumber;

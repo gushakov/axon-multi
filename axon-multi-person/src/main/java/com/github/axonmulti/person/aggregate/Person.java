@@ -29,14 +29,14 @@ public class Person {
 
     @Id
     @AggregateIdentifier
-    private UUID id;
+    private String id;
 
     private String fullName;
 
-    private UUID addressId;
+    private String addressId;
 
     // do not store this future with the aggregate
-    private transient CompletableFuture<UUID> addressAssigned;
+    private transient CompletableFuture<String> addressAssigned;
 
     public Person() {
     }
@@ -48,12 +48,12 @@ public class Person {
     }
 
     @CommandHandler
-    public Future<UUID> handle(AssignNewAddressToPersonCommand command){
+    public Future<String> handle(AssignNewAddressToPersonCommand command){
         log.debug("[Person][Aggregate][Command] Processing assign new address to a person command: {}", command);
         // should start a saga
         AggregateLifecycle.apply(new NewAddressToPersonAssignmentRequestedEvent(command.getPersonId(),
                 command.getStreetAndNumber(), command.getZipCode()));
-        addressAssigned = CompletableFuture.completedFuture(UUID.randomUUID());
+        addressAssigned = CompletableFuture.completedFuture(UUID.randomUUID().toString());
         return addressAssigned;
     }
 
