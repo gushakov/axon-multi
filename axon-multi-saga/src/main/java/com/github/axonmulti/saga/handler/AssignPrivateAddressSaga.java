@@ -1,4 +1,4 @@
-package com.github.axonmulti.person.saga;
+package com.github.axonmulti.saga.handler;
 
 
 import com.github.axonmulti.core.command.AssignPrivateAddressCommand;

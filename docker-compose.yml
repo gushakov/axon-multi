@@ -21,6 +21,14 @@ services:
 #    volumes:
 #      - ./axon-multi-eureka/target/axon-multi-eureka-1.0-SNAPSHOT.jar:/app.jar
 
+  h2db:
+    container_name: h2db
+    build:
+      context: ./axon-multi-db
+    ports:
+      - "8079:8079"
+      - "9090:9090"
+
   person:
     container_name: person
     build:
@@ -30,10 +38,12 @@ services:
     environment:
       - EUREKA_HOST=eureka
       - RABBITMQ_HOST=rabbitmq
+      - H2_DB_HOST=h2db
     command: >
       dockerize
       -wait http://rabbitmq:15672 -timeout 60s
       -wait http://eureka:8761 -timeout 60s
+      -wait tcp://h2db:9090 -timeout 60s
       java -Djava.security.egd=file:/dev/./urandom -jar /app.jar
 
   address:
@@ -45,9 +55,28 @@ services:
     environment:
       - EUREKA_HOST=eureka
       - RABBITMQ_HOST=rabbitmq
+      - H2_DB_HOST=h2db
     command: >
       dockerize
       -wait http://rabbitmq:15672 -timeout 60s
       -wait http://eureka:8761 -timeout 60s
+      -wait tcp://h2db:9090 -timeout 60s
+      java -Djava.security.egd=file:/dev/./urandom -jar /app.jar
+
+  saga:
+    container_name: saga
+    build:
+      context: ./axon-multi-saga
+    ports:
+      - "8082:8082"
+    environment:
+      - EUREKA_HOST=eureka
+      - RABBITMQ_HOST=rabbitmq
+      - H2_DB_HOST=h2db
+    command: >
+      dockerize
+      -wait http://rabbitmq:15672 -timeout 60s
+      -wait http://eureka:8761 -timeout 60s
+      -wait tcp://h2db:9090 -timeout 60s
       java -Djava.security.egd=file:/dev/./urandom -jar /app.jar
 

@@ -1,9 +1,10 @@
-package com.github.axonmulti.person.config;
+package com.github.axonmulti.saga.config;
 
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.amqp.eventhandling.AMQPMessageConverter;
 import org.axonframework.amqp.eventhandling.spring.SpringAMQPMessageSource;
+import org.axonframework.boot.util.RegisterDefaultEntities;
 import org.axonframework.common.jpa.ContainerManagedEntityManagerProvider;
 import org.axonframework.common.jpa.EntityManagerProvider;
 import org.springframework.amqp.core.*;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 // in the core module
 @Configuration
 @ComponentScan(basePackages = {"com.github.axonmulti.core"})
+@RegisterDefaultEntities(packages = { "org.axonframework.eventhandling.saga.repository.jpa"})
 @Slf4j
 public class AxonConfig {
 
@@ -41,7 +43,7 @@ public class AxonConfig {
 
     @Bean
     public Queue queue() {
-        return QueueBuilder.durable("personQueue").build();
+        return QueueBuilder.durable("sagaQueue").build();
     }
 
     // Binding
@@ -66,7 +68,7 @@ public class AxonConfig {
     public SpringAMQPMessageSource axonQueueMessageSource(AMQPMessageConverter messageConverter) {
         return new SpringAMQPMessageSource(messageConverter) {
 
-            @RabbitListener(queues = "personQueue")
+            @RabbitListener(queues = "sagaQueue")
             @Transactional
             @Override
             public void onMessage(Message message, Channel channel) {

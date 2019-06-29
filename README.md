@@ -25,3 +25,4 @@ Each component stores its own information only in its own local database (H2).
 - [Spring Boot with Docker](https://spring.io/guides/gs/spring-boot-docker/)
 - [saikatkar/sample-axon-kafka](https://github.com/saikatkar/sample-axon-kafka)
 - [sfav/axon-springboot-cloud](https://github.com/sfav/axon-springboot-cloud)
+- [Access the Same In-Memory H2 Database in Multiple Spring Boot Applications](https://www.baeldung.com/spring-boot-access-h2-database-multiple-apps)

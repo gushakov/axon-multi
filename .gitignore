@@ -1,4 +1,5 @@
 /target/
+*.mv.db
 
 ### IntelliJ IDEA ###
 .idea
