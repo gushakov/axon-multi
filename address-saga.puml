@@ -1,0 +1,31 @@
+@startuml
+
+actor "User" as U
+boundary "API" as I
+participant "Command\nBus" as C
+entity "Person" as P
+participant "Event\nBus" as E
+control "Saga" as S
+entity "Address" as A
+database "DB" as D
+
+autonumber
+
+U -> I: POST:\n/person/{personId}/address
+I -> C: CMD:\nRequestPrivateAddressAssignmentCommand
+C -> P: CMD:\nRequestPrivateAddressAssignmentCommand
+P --> E: EVT:\nPrivateAddressAssignmentRequestedEvent
+E --> S: EVT:\nPrivateAddressAssignmentRequestedEvent\n<b>START</b>
+S -> C: CMD:\nCreatePrivateAddressCommand
+C -> A: CMD:\nCreatePrivateAddressCommand
+A --> A: EVT:\nPrivateAddressCreatedEvent
+A --> D: JPA:\npersist address
+A --> E: EVT:\nPrivateAddressCreatedEvent
+E --> S: EVT:\nPrivateAddressCreatedEvent
+S -> C: CMD:\nAssignPrivateAddressCommand
+C -> P: CMD:\nPrivateAddressAssignedEvent
+P --> P: EVT:\nPrivateAddressAssignedEvent
+P --> D: JPA:\npersist person/address relation
+P --> E: EVT:\nPrivateAddressAssignedEvent
+E --> S: EVT:\nPrivateAddressAssignedEvent\n<b>END</b>
+@enduml
