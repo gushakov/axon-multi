@@ -26,7 +26,7 @@ public class PersonController {
     @PostMapping("/persons")
     public Future<UUID> createPerson(@RequestBody @Valid PersonDto personDto) {
         log.debug("[Person][API] Creating a person: {}", personDto);
-        return commandGateway.send(new CreatePersonCommand(personDto.getPersonId(), personDto.getFullName()));
+        return commandGateway.send(new CreatePersonCommand(UUID.randomUUID().toString(), personDto.getFullName()));
     }
 
     @PostMapping("/person/{personId}/address")

@@ -8,9 +8,6 @@ import javax.validation.constraints.NotNull;
 public class PersonDto {
 
     @NotNull
-    private final String personId;
-
-    @NotNull
     private final String fullName;
 
 }

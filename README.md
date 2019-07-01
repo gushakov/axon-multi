@@ -6,7 +6,7 @@ Axon Multi-services
 Playground application with uses Axon framework to demonstrates a way of building a distributed event-driven 
 system around the concepts of domain-driven design and CQRS. 
 
-There are several modules, each is a standalone Spring Boot application:
+There are several modules, they are standalone Spring Boot applications or libraries:
 
 - `common`: module containing configuration (Maven dependencies) common to other modules
 - `core`: module with all commands and event shared by other modules
@@ -19,6 +19,7 @@ There are several modules, each is a standalone Spring Boot application:
 ### Axon configuration
 
 - Using Axon Server version 4.1 without event sourcing infrastructure
+- Aggregates and Saga persist their states in the separate schemas of the central H2 database
 
 ### API:
 
