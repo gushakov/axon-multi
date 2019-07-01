@@ -21,6 +21,12 @@ There are several modules, each is a standalone Spring Boot application:
 
 ### Axon configuration
 
+### Saga
+
+This is how assigning private address to a person Saga proceeds:
+
+![address_saga](https://github.com/gushakov/axon-multi/blob/master/address_saga.png)
+
 ### Docker
 
 ### H2 database
