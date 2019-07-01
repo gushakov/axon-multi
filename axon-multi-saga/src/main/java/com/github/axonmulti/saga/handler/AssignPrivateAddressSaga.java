@@ -16,7 +16,7 @@ import org.axonframework.spring.stereotype.Saga;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Saga
-@ProcessingGroup("assign-private-address-saga")
+@ProcessingGroup("private-address-saga")
 @Slf4j
 public class AssignPrivateAddressSaga {
 
@@ -29,7 +29,7 @@ public class AssignPrivateAddressSaga {
     @StartSaga
     @SagaEventHandler(associationProperty = "personId")
     public void on(PrivateAddressAssignmentRequestedEvent event) {
-        log.debug("[Saga][Person Address][Start] Started saga on event: {}", event);
+        log.debug("[Saga][Private address][Start] Started saga on event: {}", event);
 
         // create new private address
         commandGateway.send(new CreatePrivateAddressCommand(event.getAddressId(),
@@ -38,7 +38,7 @@ public class AssignPrivateAddressSaga {
 
     @SagaEventHandler(associationProperty = "personId")
     public void on(PrivateAddressCreatedEvent event){
-        log.debug("[Saga][Person Address] Private address was created: {}", event);
+        log.debug("[Saga][Private address] Private address was created: {}", event);
 
         // assign created address to a person
         commandGateway.send(new AssignPrivateAddressCommand(event.getPersonId(), event.getAddressId()));
@@ -47,7 +47,7 @@ public class AssignPrivateAddressSaga {
     @EndSaga
     @SagaEventHandler(associationProperty = "personId")
     public void on(PrivateAddressAssignedEvent event){
-        log.debug("[Saga][Person Address][End] Private address was assigned: {}", event);
+        log.debug("[Saga][Private address][End] Private address was assigned: {}", event);
     }
 
 }
