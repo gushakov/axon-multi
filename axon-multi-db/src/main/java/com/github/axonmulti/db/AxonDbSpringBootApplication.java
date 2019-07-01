@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import java.sql.SQLException;
 
 @SpringBootApplication
-public class AxonDbSpringBootApplication /*implements CommandLineRunner*/ {
+public class AxonDbSpringBootApplication {
 
 
     @Bean(initMethod = "start", destroyMethod = "stop")
@@ -21,9 +21,4 @@ public class AxonDbSpringBootApplication /*implements CommandLineRunner*/ {
     public static void main(String[] args) {
         SpringApplication.run(AxonDbSpringBootApplication.class, args);
     }
-
-    /*@Override
-    public void run(String... args) throws Exception {
-        Thread.currentThread().join();
-    }*/
 }

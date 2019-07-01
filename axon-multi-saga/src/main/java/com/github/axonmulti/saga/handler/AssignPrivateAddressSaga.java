@@ -9,9 +9,9 @@ import com.github.axonmulti.core.event.PrivateAddressCreatedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.config.ProcessingGroup;
-import org.axonframework.eventhandling.saga.EndSaga;
-import org.axonframework.eventhandling.saga.SagaEventHandler;
-import org.axonframework.eventhandling.saga.StartSaga;
+import org.axonframework.modelling.saga.EndSaga;
+import org.axonframework.modelling.saga.SagaEventHandler;
+import org.axonframework.modelling.saga.StartSaga;
 import org.axonframework.spring.stereotype.Saga;
 import org.springframework.beans.factory.annotation.Autowired;
 

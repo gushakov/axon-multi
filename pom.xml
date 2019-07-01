@@ -23,12 +23,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <axon.version>4.0-M2</axon.version>
-        <spring.boot.version>2.0.4.RELEASE</spring.boot.version>
+        <axon.version>4.1</axon.version>
+        <axon.springcloud.version>4.0-M2</axon.springcloud.version>
+        <reactor.version>3.1.7.RELEASE</reactor.version>
+        <spring.boot.version>2.1.2.RELEASE</spring.boot.version>
         <springfox.swagger2.version>2.9.2</springfox.swagger2.version>
-        <spring.cloud.version>Finchley.RELEASE</spring.cloud.version>
+        <spring.cloud.version>Greenwich.RELEASE</spring.cloud.version>
     </properties>
-
 
     <dependencyManagement>
 
@@ -36,39 +37,42 @@
 
             <dependency>
                 <groupId>org.axonframework</groupId>
-                <artifactId>axon-spring</artifactId>
+                <artifactId>axon-spring-boot-starter</artifactId>
                 <version>${axon.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.axonframework</groupId>
+                        <artifactId>axon-eventsourcing</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
-
 
             <dependency>
                 <groupId>org.axonframework</groupId>
-                <artifactId>axon-spring-boot-starter</artifactId>
+                <artifactId>axon-spring</artifactId>
                 <version>${axon.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.axonframework</groupId>
                 <artifactId>axon-distributed-commandbus-springcloud</artifactId>
+                <version>${axon.springcloud.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>*</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.axonframework.extensions.amqp</groupId>
+                <artifactId>axon-amqp-spring-boot-starter</artifactId>
                 <version>${axon.version}</version>
             </dependency>
 
-
-            <!--
-                For 4.1 version, we would use a starter for AMQP extension: axon-amqp-spring-boot-starter,
-                but it does not work with Axon 4.0-M2.
-            -->
-
-            <!--
-                        <dependency>
-                            <groupId>org.axonframework.extensions.amqp</groupId>
-                            <artifactId>axon-amqp-spring-boot-starter</artifactId>
-                            <version>${axon.amqp.version}</version>
-                        </dependency>
-            -->
-
             <dependency>
-                <groupId>org.axonframework</groupId>
+                <groupId>org.axonframework.extensions.amqp</groupId>
                 <artifactId>axon-amqp</artifactId>
                 <version>${axon.version}</version>
             </dependency>
@@ -86,9 +90,9 @@
             </dependency>
 
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring.boot.version}</version>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-parent</artifactId>
+                <version>${spring.cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

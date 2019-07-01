@@ -10,16 +10,16 @@ import com.github.axonmulti.core.event.PrivateAddressAssignmentRequestedEvent;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandHandler;
-import org.axonframework.commandhandling.model.AggregateIdentifier;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.spring.stereotype.Aggregate;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.UUID;
 
-import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
+import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 
 @Aggregate
 @ProcessingGroup("person-aggregate")
@@ -42,14 +42,14 @@ public class Person {
 
     // from API
     @CommandHandler
-    public Person(CreatePersonCommand command){
+    public Person(CreatePersonCommand command) {
         log.debug("[Person][Aggregate][Command] Creating new person: {}", command);
         apply(new PersonCreatedEvent(command.getPersonId(), command.getFullName()));
     }
 
     // from API
     @CommandHandler
-    public void handle(RequestPrivateAddressAssignmentCommand command){
+    public void handle(RequestPrivateAddressAssignmentCommand command) {
         log.debug("[Person][Aggregate][Command] Private address assignment requested: {}", command);
         // should start a saga
         apply(new PrivateAddressAssignmentRequestedEvent(UUID.randomUUID().toString(),
@@ -61,7 +61,7 @@ public class Person {
 
     // from saga
     @CommandHandler
-    public void handle(AssignPrivateAddressCommand command){
+    public void handle(AssignPrivateAddressCommand command) {
         log.debug("[Person][Aggregate][Command] Assigning private address: {}", command);
         // should end saga
         apply(new PrivateAddressAssignedEvent(command.getPersonId(), command.getAddressId()));
@@ -69,7 +69,7 @@ public class Person {
 
     // domain event
     @EventHandler
-    public void on(PersonCreatedEvent event){
+    public void on(PersonCreatedEvent event) {
         log.debug("[Person][Aggregate][Event] Person created: {}", event);
         this.id = event.getPersonId();
         this.fullName = event.getFullName();
@@ -77,7 +77,7 @@ public class Person {
 
     // domain event
     @EventHandler
-    public void on(PrivateAddressAssignedEvent event){
+    public void on(PrivateAddressAssignedEvent event) {
         log.debug("[Person][Aggregate][Event] Private address assigned: {}", event);
         this.addressId = event.getAddressId();
     }

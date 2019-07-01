@@ -1,7 +1,7 @@
 package com.github.axonmulti.core.command;
 
 import lombok.Value;
-import org.axonframework.commandhandling.TargetAggregateIdentifier;
+import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 @Value
 public class CreatePrivateAddressCommand {

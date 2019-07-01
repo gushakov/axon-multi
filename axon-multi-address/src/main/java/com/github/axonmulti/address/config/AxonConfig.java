@@ -2,10 +2,10 @@ package com.github.axonmulti.address.config;
 
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
-import org.axonframework.amqp.eventhandling.AMQPMessageConverter;
-import org.axonframework.amqp.eventhandling.spring.SpringAMQPMessageSource;
-import org.axonframework.common.jpa.ContainerManagedEntityManagerProvider;
 import org.axonframework.common.jpa.EntityManagerProvider;
+import org.axonframework.extensions.amqp.eventhandling.AMQPMessageConverter;
+import org.axonframework.extensions.amqp.eventhandling.spring.SpringAMQPMessageSource;
+import org.axonframework.springboot.util.jpa.ContainerManagedEntityManagerProvider;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;

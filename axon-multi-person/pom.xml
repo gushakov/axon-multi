@@ -29,7 +29,10 @@
                 <artifactId>depgraph-maven-plugin</artifactId>
                 <version>3.3.0</version>
                 <configuration>
-                    <graphFormat>text</graphFormat>
+                    <graphFormat>dot</graphFormat>
+                    <imageFormat>svg</imageFormat>
+                    <createImage>true</createImage>
+                    <showGroupIds>true</showGroupIds>
                     <showVersions>true</showVersions>
                     <showConflicts>true</showConflicts>
                 </configuration>
