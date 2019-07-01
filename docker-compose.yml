@@ -2,11 +2,15 @@ version: '3.7'
 services:
 
   axonserver:
-    image: axoniq/axonserver:4.1
+    image: axoniq/axonserver:4.1.1
     container_name: axonserver
+    hostname: axonserver
     ports:
       - "8024:8024"
       - "8124:8124"
+      - "8224:8224"
+    environment:
+      - AXONSERVER_HOSTNAME=axonserver
     networks:
       - axon
 
@@ -76,6 +80,25 @@ services:
       java -Djava.security.egd=file:/dev/./urandom -jar /app.jar
 #    volumes:
 #      - ./axon-multi-saga/target/axon-multi-saga-1.0-SNAPSHOT.jar:/app.jar
+    networks:
+      - axon
+
+  projection:
+    container_name: projection
+    build:
+      context: ./axon-multi-projection
+    ports:
+      - "8083:8083"
+    environment:
+      - AXON_SERVER=axonserver
+      - H2_DB_HOST=h2db
+    command: >
+      dockerize
+      -wait tcp://axonserver:8124 -timeout 60s
+      -wait tcp://h2db:9090 -timeout 60s
+      java -Djava.security.egd=file:/dev/./urandom -jar /app.jar
+#    volumes:
+#      - ./axon-multi-projection/target/axon-multi-projection-1.0-SNAPSHOT.jar:/app.jar
     networks:
       - axon
 

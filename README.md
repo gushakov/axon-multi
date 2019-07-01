@@ -43,6 +43,7 @@ Run `docker-compose up`.
 
 ### Links and resources used in this project
 
+- [Configuring Axon Server for Docker](https://hub.docker.com/r/axoniq/axonserver/#configuring-axon-server)
 - [Error Handling for REST with Spring](https://www.baeldung.com/exception-handling-for-rest-with-spring)
 - [Build a REST API with Spring](http://www.canchito-dev.com/public/blog/2017/04/22/build-a-rest-api-with-spring/)
 - [Spring Boot with Docker](https://spring.io/guides/gs/spring-boot-docker/)
