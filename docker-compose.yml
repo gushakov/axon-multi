@@ -28,6 +28,8 @@ services:
     ports:
       - "8079:8079"
       - "9090:9090"
+  #    volumes:
+  #      - ./axon-multi-db/target/axon-multi-db-1.0-SNAPSHOT.jar:/app.jar
 
   person:
     container_name: person
@@ -45,6 +47,8 @@ services:
       -wait http://eureka:8761 -timeout 60s
       -wait tcp://h2db:9090 -timeout 60s
       java -Djava.security.egd=file:/dev/./urandom -jar /app.jar
+  #    volumes:
+  #      - ./axon-multi-person/target/axon-multi-person-1.0-SNAPSHOT.jar:/app.jar
 
   address:
     container_name: address
@@ -62,6 +66,8 @@ services:
       -wait http://eureka:8761 -timeout 60s
       -wait tcp://h2db:9090 -timeout 60s
       java -Djava.security.egd=file:/dev/./urandom -jar /app.jar
+  #    volumes:
+  #      - ./axon-multi-address/target/axon-multi-address-1.0-SNAPSHOT.jar:/app.jar
 
   saga:
     container_name: saga
@@ -79,4 +85,6 @@ services:
       -wait http://eureka:8761 -timeout 60s
       -wait tcp://h2db:9090 -timeout 60s
       java -Djava.security.egd=file:/dev/./urandom -jar /app.jar
+#    volumes:
+#      - ./axon-multi-saga/target/axon-multi-saga-1.0-SNAPSHOT.jar:/app.jar
 

@@ -13,11 +13,6 @@
 
     <dependencies>
 
-        <!--
-            from https://github.com/sfav/axon-springboot-cloud/blob/master/axon-sfav-service-discovery/pom.xml
-            https://www.baeldung.com/spring-cloud-netflix-eureka
-        -->
-
         <!-- Eureka server -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
