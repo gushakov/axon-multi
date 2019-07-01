@@ -16,10 +16,11 @@ I -> C: CMD:\nRequestPrivateAddressAssignmentCommand
 C -> P: CMD:\nRequestPrivateAddressAssignmentCommand
 P --> E: EVT:\nPrivateAddressAssignmentRequestedEvent
 E --> S: EVT:\nPrivateAddressAssignmentRequestedEvent\n<b>START</b>
+S -> D: JPA:\npersist Saga
 S -> C: CMD:\nCreatePrivateAddressCommand
 C -> A: CMD:\nCreatePrivateAddressCommand
 A --> A: EVT:\nPrivateAddressCreatedEvent
-A --> D: JPA:\npersist address
+A -> D: JPA:\npersist address
 A --> E: EVT:\nPrivateAddressCreatedEvent
 E --> S: EVT:\nPrivateAddressCreatedEvent
 S -> C: CMD:\nAssignPrivateAddressCommand
@@ -28,4 +29,5 @@ P --> P: EVT:\nPrivateAddressAssignedEvent
 P --> D: JPA:\npersist person/address relation
 P --> E: EVT:\nPrivateAddressAssignedEvent
 E --> S: EVT:\nPrivateAddressAssignedEvent\n<b>END</b>
+S -> D: JPA\nremove Saga
 @enduml
