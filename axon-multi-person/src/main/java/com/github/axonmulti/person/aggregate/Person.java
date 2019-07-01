@@ -10,7 +10,6 @@ import com.github.axonmulti.core.event.PrivateAddressAssignmentRequestedEvent;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandHandler;
-import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.spring.stereotype.Aggregate;
@@ -22,7 +21,6 @@ import java.util.UUID;
 import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 
 @Aggregate
-@ProcessingGroup("person-aggregate")
 @Entity
 @Data
 @Slf4j

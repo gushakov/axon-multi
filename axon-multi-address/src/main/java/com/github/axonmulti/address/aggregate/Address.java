@@ -5,7 +5,6 @@ import com.github.axonmulti.core.event.PrivateAddressCreatedEvent;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandHandler;
-import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
@@ -18,7 +17,6 @@ import javax.persistence.Id;
 @Entity
 @Data
 @Slf4j
-@ProcessingGroup("address-aggregate")
 public class Address {
 
     @Id
@@ -35,14 +33,14 @@ public class Address {
     }
 
     @CommandHandler
-    public Address(CreatePrivateAddressCommand command){
+    public Address(CreatePrivateAddressCommand command) {
         log.debug("[Address][Aggregate][Command] Processing create new private address command: {}", command);
         AggregateLifecycle.apply(new PrivateAddressCreatedEvent(command.getAddressId(), command.getPersonId(),
                 command.getStreetAndNumber(), command.getZipCode()));
     }
 
     @EventHandler
-    public void on(PrivateAddressCreatedEvent event){
+    public void on(PrivateAddressCreatedEvent event) {
         log.debug("[Address][Aggregate][Event] Processing new private address created event: {}", event);
         this.addressId = event.getAddressId();
         this.personId = event.getPersonId();

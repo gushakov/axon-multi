@@ -8,7 +8,6 @@ import com.github.axonmulti.core.event.PrivateAddressAssignmentRequestedEvent;
 import com.github.axonmulti.core.event.PrivateAddressCreatedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.config.ProcessingGroup;
 import org.axonframework.modelling.saga.EndSaga;
 import org.axonframework.modelling.saga.SagaEventHandler;
 import org.axonframework.modelling.saga.StartSaga;
@@ -16,7 +15,6 @@ import org.axonframework.spring.stereotype.Saga;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Saga
-@ProcessingGroup("assign-private-address-saga")
 @Slf4j
 public class AssignPrivateAddressSaga {
 
@@ -37,7 +35,7 @@ public class AssignPrivateAddressSaga {
     }
 
     @SagaEventHandler(associationProperty = "personId")
-    public void on(PrivateAddressCreatedEvent event){
+    public void on(PrivateAddressCreatedEvent event) {
         log.debug("[Saga][Person Address] Private address was created: {}", event);
 
         // assign created address to a person
@@ -46,7 +44,7 @@ public class AssignPrivateAddressSaga {
 
     @EndSaga
     @SagaEventHandler(associationProperty = "personId")
-    public void on(PrivateAddressAssignedEvent event){
+    public void on(PrivateAddressAssignedEvent event) {
         log.debug("[Saga][Person Address][End] Private address was assigned: {}", event);
     }
 

@@ -1,29 +1,15 @@
 version: '3.7'
 services:
 
-  rabbitmq:
-    container_name: rabbitmq
-    image: rabbitmq:3-management
-    hostname: rabbitmq
+  axonserver:
+    image: axoniq/axonserver:4.1
+    container_name: axonserver
     ports:
-      - "5672:5672"
-      - "15672:15672"
-    environment:
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest
+      - "8024:8024"
+      - "8124:8124"
     networks:
       - axon
 
-  eureka:
-    container_name: eureka
-    build:
-      context: ./axon-multi-eureka
-    ports:
-      - "8761:8761"
-#    volumes:
-#      - ./axon-multi-eureka/target/axon-multi-eureka-1.0-SNAPSHOT.jar:/app.jar
-    networks:
-      - axon
 
   h2db:
     container_name: h2db
