@@ -11,6 +11,8 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
+    networks:
+      - axon
 
   eureka:
     container_name: eureka
@@ -20,6 +22,8 @@ services:
       - "8761:8761"
 #    volumes:
 #      - ./axon-multi-eureka/target/axon-multi-eureka-1.0-SNAPSHOT.jar:/app.jar
+    networks:
+      - axon
 
   h2db:
     container_name: h2db
@@ -30,6 +34,8 @@ services:
       - "9090:9090"
   #    volumes:
   #      - ./axon-multi-db/target/axon-multi-db-1.0-SNAPSHOT.jar:/app.jar
+    networks:
+      - axon
 
   person:
     container_name: person
@@ -49,6 +55,8 @@ services:
       java -Djava.security.egd=file:/dev/./urandom -jar /app.jar
   #    volumes:
   #      - ./axon-multi-person/target/axon-multi-person-1.0-SNAPSHOT.jar:/app.jar
+    networks:
+      - axon
 
   address:
     container_name: address
@@ -68,6 +76,8 @@ services:
       java -Djava.security.egd=file:/dev/./urandom -jar /app.jar
   #    volumes:
   #      - ./axon-multi-address/target/axon-multi-address-1.0-SNAPSHOT.jar:/app.jar
+    networks:
+      - axon
 
   saga:
     container_name: saga
@@ -87,4 +97,9 @@ services:
       java -Djava.security.egd=file:/dev/./urandom -jar /app.jar
 #    volumes:
 #      - ./axon-multi-saga/target/axon-multi-saga-1.0-SNAPSHOT.jar:/app.jar
+    networks:
+      - axon
 
+networks:
+  axon:
+    driver: overlay

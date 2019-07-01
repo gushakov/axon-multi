@@ -21,6 +21,14 @@ There are several modules, each is a standalone Spring Boot application:
 
 ### Axon configuration
 
+- Using Axon 4.1 version
+- Not using Axon Server
+- Remove Event Sourcing infrastructure
+
+### API:
+
+Access Swagger UI: at http://localhost:8080/swagger-ui.html
+
 ### Saga
 
 This is how assigning private address to a person Saga proceeds:
@@ -29,7 +37,13 @@ This is how assigning private address to a person Saga proceeds:
 
 ### Docker
 
+Run `docker-compose up`.
+
 ### H2 database
+
+- Access H2 console at http://localhost:8079/h2-console
+- Use Server configuration
+- JDBC URL: jdbc:h2:tcp://localhost:9090/./axondb;IFEXISTS=true;DB_CLOSE_ON_EXIT=FALSE
 
 ### Links and resources used in this project
 
