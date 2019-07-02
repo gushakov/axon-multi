@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-@ProcessingGroup("person-summary")
+@ProcessingGroup("person-summary-projection")
 public class PersonSummaryProjectionHandler {
 
     private final PersonSummaryRepository personSummaryRepository;

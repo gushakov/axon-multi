@@ -1,6 +1,19 @@
 version: '3.7'
 services:
 
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    networks:
+      - axon
+
   axonserver:
     image: axoniq/axonserver:4.1.1
     container_name: axonserver
