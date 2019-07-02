@@ -1,0 +1,50 @@
+@startuml
+
+
+rectangle "Person" <<Aggregate>> as P
+database "Person\nschema" as PDB
+
+rectangle "Address" <<Aggregate>> as A
+database "Address\nschema" as ADB
+
+queue "Event Bus" as E
+
+queue "Command Bus" as C
+
+interface "Command\nAPI" as CAPI
+interface "Query\nAPI" as QAPI
+
+rectangle "Saga" <<Event handler>> as S
+database "Saga\nschema" as SDB
+
+rectangle "Projection" <<Event handler>> as PR
+database "Projection\nschema" as PRDB
+
+
+CAPI -right-> C: POST
+
+C --down--> P: "dispatch"
+
+C --down--> A: "dispatch"
+
+P -down-> PDB: "JPA"
+
+A -down-> ADB: "JPA"
+
+P .right.> E: "apply"
+
+A .left.> E: "apply"
+
+S .down.> E: "listen"
+
+S -up-> C: "call"
+
+S -right-> SDB: "JPA"
+
+PR .up.> E: "listen"
+
+PR -down-> PRDB: "JPA"
+
+QAPI -right-> PRDB: "GET"
+
+@enduml
