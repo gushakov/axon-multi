@@ -13,11 +13,16 @@
 
     <dependencies>
 
-    <dependency>
-        <groupId>com.github</groupId>
-        <artifactId>axon-multi-common</artifactId>
-        <version>${project.parent.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>com.github</groupId>
+            <artifactId>axon-multi-common</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-core</artifactId>
+        </dependency>
 
     </dependencies>
 

@@ -114,8 +114,8 @@ services:
       -wait tcp://axonserver:8124 -timeout 60s
       -wait tcp://h2db:9090 -timeout 60s
       java -Djava.security.egd=file:/dev/./urandom -jar /app.jar
-#    volumes:
-#      - ./axon-multi-projection/target/axon-multi-projection-1.0-SNAPSHOT.jar:/app.jar
+    volumes:
+      - ./axon-multi-projection/target/axon-multi-projection-1.0-SNAPSHOT.jar:/app.jar
     networks:
       - axon
 
