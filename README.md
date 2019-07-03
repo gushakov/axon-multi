@@ -21,6 +21,12 @@ There are several modules, they are standalone Spring Boot applications or libra
 - Using Axon Server version 4.1 without event sourcing infrastructure
 - Aggregates and Saga persist their states in the separate schemas of the central H2 database
 
+### CQRS and messaging infrastructure
+
+This is the overview of the system:
+
+![architecture](https://github.com/gushakov/axon-multi/blob/master/cqrs.png)
+
 ### API:
 
 Access Swagger UI: at http://localhost:8080/swagger-ui.html
