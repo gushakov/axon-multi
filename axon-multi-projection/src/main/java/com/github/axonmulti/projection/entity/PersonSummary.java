@@ -1,5 +1,6 @@
 package com.github.axonmulti.projection.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,7 @@ import javax.persistence.Id;
 @Data
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 public class PersonSummary {
 
     @Id
@@ -22,8 +24,4 @@ public class PersonSummary {
 
     private String zipCode;
 
-    public PersonSummary(String personId, String fullName) {
-        this.personId = personId;
-        this.fullName = fullName;
-    }
 }

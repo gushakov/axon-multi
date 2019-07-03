@@ -1,9 +1,10 @@
 package com.github.axonmulti.projection.handler;
 
-import com.github.axonmulti.core.event.PersonCreatedEvent;
 import com.github.axonmulti.core.event.PrivateAddressAssignedEvent;
 import com.github.axonmulti.core.query.AddressByIdQuery;
-import com.github.axonmulti.projection.entity.AddressSummary;
+import com.github.axonmulti.core.query.AddressByIdQueryResult;
+import com.github.axonmulti.core.query.PersonByIdQuery;
+import com.github.axonmulti.core.query.PersonByIdQueryResult;
 import com.github.axonmulti.projection.entity.PersonSummary;
 import com.github.axonmulti.projection.repository.PersonSummaryRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,39 +27,31 @@ public class PersonSummaryProjectionHandler {
     private final QueryGateway queryGateway;
 
     @EventHandler
-    public void on(PersonCreatedEvent event){
-        log.debug("[Projection][Person summary] Record person created event: {}", event);
-        personSummaryRepository.save(new PersonSummary(event.getPersonId(),
-                event.getFullName()));
-    }
-
-    @EventHandler
     public void on(PrivateAddressAssignedEvent event){
         log.debug("[Projection][Person summary] Record private address assigned event: {}", event);
 
-        // this asynchronous, parallel, reactive code
+        // query for the person with the matching ID
+        Mono<PersonByIdQueryResult> findPersonMono = Mono.fromFuture(queryGateway
+                .query(new PersonByIdQuery(event.getPersonId()), PersonByIdQueryResult.class));
 
-        // find person summary
-        Mono<PersonSummary> findPersonSummaryMono = Mono.fromSupplier(() ->
-                personSummaryRepository.findById(event.getPersonId())
-                        .orElseThrow(IllegalStateException::new));
+        // query for the address with the matching ID
+        Mono<AddressByIdQueryResult> findAddressMono = Mono.fromFuture(queryGateway
+                .query(new AddressByIdQuery(event.getAddressId()), AddressByIdQueryResult.class));
 
-        // query for address summary
-        Mono<AddressSummary> findAddressSummaryMono = Mono.fromFuture(queryGateway
-                .query(new AddressByIdQuery(event.getAddressId()), AddressSummary.class));
-
-        // wait for both summaries then update person summary
-        Flux.zip(findPersonSummaryMono, findAddressSummaryMono)
+        // execute both queries in parallel and combine the results
+        Flux.zip(findPersonMono, findAddressMono)
                 .subscribe(tuple -> {
-                    PersonSummary personSummary = tuple.getT1();
-                    AddressSummary addressSummary = tuple.getT2();
-                    personSummary.setAddressId(event.getAddressId());
-                    personSummary.setStreetAndNumber(addressSummary.getStreetAndNumber());
-                    personSummary.setZipCode(addressSummary.getZipCode());
-                    personSummaryRepository.save(personSummary);
-                    log.debug("[Projection][Person summary] Updated person summary: {}", personSummary);
-                });
+                    PersonByIdQueryResult personResult = tuple.getT1();
+                    AddressByIdQueryResult addressResult = tuple.getT2();
 
+                    PersonSummary personSummary = new PersonSummary(event.getPersonId(),
+                            event.getAddressId(), personResult.getFullName(),
+                            addressResult.getStreetAndNumber(),
+                            addressResult.getZipCode());
+
+                    personSummaryRepository.save(personSummary);
+                    log.debug("[Projection][Person summary] Saved person summary: {}", personSummary);
+                });
     }
 
 }
