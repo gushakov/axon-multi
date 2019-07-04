@@ -12,6 +12,8 @@ import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 
 @Aggregate
@@ -20,6 +22,12 @@ import javax.persistence.Id;
 @Slf4j
 @ProcessingGroup("address-aggregate")
 public class Address {
+
+    enum ValidationStatus {
+        Initial,
+        Validated,
+        ToBeDeleted
+    }
 
     @Id
     @AggregateIdentifier
@@ -30,6 +38,9 @@ public class Address {
     private String streetAndNumber;
 
     private String zipCode;
+
+    @Enumerated(EnumType.STRING)
+    private ValidationStatus validationStatus;
 
     public Address() {
     }

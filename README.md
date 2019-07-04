@@ -55,3 +55,4 @@ Run `docker-compose up`.
 - [Spring Boot with Docker](https://spring.io/guides/gs/spring-boot-docker/)
 - [Access the Same In-Memory H2 Database in Multiple Spring Boot Applications](https://www.baeldung.com/spring-boot-access-h2-database-multiple-apps)
 - [How to Make Legacy Code Reactivee](https://itnext.io/how-to-make-legacy-code-reactive-2debcb3d0a40)
+- [#HOWTO: Best Practices for Flyway and Hibernate with Spring Boot](https://rieckpil.de/howto-best-practices-for-flyway-and-hibernate-with-spring-boot/)
