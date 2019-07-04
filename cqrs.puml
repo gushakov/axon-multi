@@ -1,50 +1,79 @@
 @startuml
 
+skinparam component {
+    backgroundColor<<Aggregate>> lightBlue
+    backgroundColor<<Event handler>> lightGreen
+}
 
-rectangle "Person" <<Aggregate>> as P
+skinparam noteFontSize 10
+
+component "Person" <<Aggregate>> as P
 database "Person\nschema" as PDB
 
-rectangle "Address" <<Aggregate>> as A
+component "Address" <<Aggregate>> as A
 database "Address\nschema" as ADB
 
 queue "Event Bus" as E
 
 queue "Command Bus" as C
 
+queue "Query Bus" as Q
+
 interface "Command\nAPI" as CAPI
 interface "Query\nAPI" as QAPI
 
-rectangle "Saga" <<Event handler>> as S
+component "Saga" <<Event handler>> as S
 database "Saga\nschema" as SDB
 
-rectangle "Projection" <<Event handler>> as PR
+component "Projection" <<Event handler>> as PR
 database "Projection\nschema" as PRDB
 
 
-CAPI -right-> C: POST
+CAPI -right-> C: "use"
 
 C --down--> P: "dispatch"
 
 C --down--> A: "dispatch"
 
-P -down-> PDB: "JPA"
+P -left- PDB: "JPA"
 
-A -down-> ADB: "JPA"
+A -right- ADB: "JPA"
 
-P .right.> E: "apply"
+P -right-> E: "apply"
 
-A .left.> E: "apply"
+E <.left. P: "listen"
+
+A -left-> E: "apply"
+
+E .right.> A: "listen"
 
 S .down.> E: "listen"
 
-S -up-> C: "call"
+S -up-> C: "dispatch"
 
-S -right-> SDB: "JPA"
+S -right- SDB: "JPA"
 
 PR .up.> E: "listen"
 
-PR -down-> PRDB: "JPA"
+PR -right- PRDB: "JPA"
 
-QAPI -right-> PRDB: "GET"
+Q --up--> A: "query"
+
+Q --up--> P: "query"
+
+Q <-up-> PR: "query"
+
+QAPI -right-> Q: "use"
+
+note left of PR
+1..*
+denormalized
+endnote
+
+note left of S
+1..*
+workflow
+endnote
+
 
 @enduml
