@@ -1,7 +1,9 @@
 package com.github.axonmulti.address.aggregate;
 
 import com.github.axonmulti.core.command.CreatePrivateAddressCommand;
+import com.github.axonmulti.core.command.ValidatePrivateAddressCommand;
 import com.github.axonmulti.core.event.PrivateAddressCreatedEvent;
+import com.github.axonmulti.core.event.PrivateAddressValidatedEvent;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandHandler;
@@ -11,10 +13,7 @@ import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Aggregate
 @Entity
@@ -33,12 +32,14 @@ public class Address {
     @AggregateIdentifier
     private String addressId;
 
+    @Column(nullable = false)
     private String personId;
 
     private String streetAndNumber;
 
     private String zipCode;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ValidationStatus validationStatus;
 
@@ -52,6 +53,14 @@ public class Address {
                 command.getStreetAndNumber(), command.getZipCode()));
     }
 
+    @CommandHandler
+    public void handle(ValidatePrivateAddressCommand command){
+        log.debug("[Address][Aggregate][Command] Processing validate private address command: {}", command);
+
+        // maybe some validation logic here
+        AggregateLifecycle.apply(new PrivateAddressValidatedEvent(command.getAddressId(), this.addressId));
+    }
+
     @EventHandler
     public void on(PrivateAddressCreatedEvent event) {
         log.debug("[Address][Aggregate][Event] Processing new private address created event: {}", event);
@@ -59,5 +68,12 @@ public class Address {
         this.personId = event.getPersonId();
         this.streetAndNumber = event.getStreetAndNumber();
         this.zipCode = event.getZipCode();
+        this.validationStatus = ValidationStatus.Initial;
+    }
+
+    @EventHandler
+    public void on(PrivateAddressValidatedEvent event){
+        log.debug("[Address][Aggregate][Event] Processing validate address event: {}", event);
+        this.validationStatus = ValidationStatus.Validated;
     }
 }

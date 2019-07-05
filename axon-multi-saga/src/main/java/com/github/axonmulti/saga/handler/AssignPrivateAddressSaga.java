@@ -5,7 +5,7 @@ import com.github.axonmulti.core.command.AssignPrivateAddressCommand;
 import com.github.axonmulti.core.command.CreatePrivateAddressCommand;
 import com.github.axonmulti.core.event.PrivateAddressAssignedEvent;
 import com.github.axonmulti.core.event.PrivateAddressAssignmentRequestedEvent;
-import com.github.axonmulti.core.event.PrivateAddressCreatedEvent;
+import com.github.axonmulti.core.event.PrivateAddressValidatedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.config.ProcessingGroup;
@@ -34,11 +34,13 @@ public class AssignPrivateAddressSaga {
         // create new private address
         commandGateway.send(new CreatePrivateAddressCommand(event.getAddressId(),
                 event.getPersonId(), event.getStreetAndNumber(), event.getZipCode()));
+
+        // and wait for validation
     }
 
     @SagaEventHandler(associationProperty = "personId")
-    public void on(PrivateAddressCreatedEvent event) {
-        log.debug("[Saga][Person Address] Private address was created: {}", event);
+    public void on(PrivateAddressValidatedEvent event) {
+        log.debug("[Saga][Person Address] Private address was validated: {}", event);
 
         // assign created address to a person
         commandGateway.send(new AssignPrivateAddressCommand(event.getPersonId(), event.getAddressId()));
@@ -48,6 +50,7 @@ public class AssignPrivateAddressSaga {
     @SagaEventHandler(associationProperty = "personId")
     public void on(PrivateAddressAssignedEvent event) {
         log.debug("[Saga][Person Address][End] Private address was assigned: {}", event);
+        // end saga
     }
 
 }

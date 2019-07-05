@@ -2,8 +2,8 @@ package com.github.axonmulti.person.api;
 
 import com.github.axonmulti.core.command.CreatePersonCommand;
 import com.github.axonmulti.core.command.RequestPrivateAddressAssignmentCommand;
-import com.github.axonmulti.person.dto.PersonDto;
 import com.github.axonmulti.person.dto.AddressDto;
+import com.github.axonmulti.person.dto.PersonDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -24,7 +24,7 @@ public class PersonController {
     private final CommandGateway commandGateway;
 
     @PostMapping("/persons")
-    public Future<UUID> createPerson(@RequestBody @Valid PersonDto personDto) {
+    public Future<String> createPerson(@RequestBody @Valid PersonDto personDto) {
         log.debug("[Person][API] Creating a person: {}", personDto);
         return commandGateway.send(new CreatePersonCommand(UUID.randomUUID().toString(), personDto.getFullName()));
     }
