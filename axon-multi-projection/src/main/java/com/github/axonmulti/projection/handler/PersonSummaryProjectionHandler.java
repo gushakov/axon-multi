@@ -46,11 +46,10 @@ public class PersonSummaryProjectionHandler {
                     PersonByIdQueryResult personResult = tuple.getT1();
                     AddressByIdQueryResult addressResult = tuple.getT2();
 
-                    PersonSummary personSummary = new PersonSummary(event.getPersonId(),
+                    PersonSummary personSummary = new PersonSummary(null, event.getPersonId(),
                             event.getAddressId(), personResult.getFullName(),
                             addressResult.getStreetAndNumber(),
                             addressResult.getZipCode());
-
                     personSummaryRepository.save(personSummary);
                     log.debug("[Projection][Person summary] Saved person summary: {}", personSummary);
                 });
