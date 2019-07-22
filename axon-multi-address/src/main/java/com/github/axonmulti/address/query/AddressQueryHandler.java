@@ -18,7 +18,7 @@ public class AddressQueryHandler {
     private final EntityManager entityManager;
 
     @QueryHandler
-    public AddressByIdQueryResult handle(AddressByIdQuery query){
+    public AddressByIdQueryResult handle(AddressByIdQuery query) {
         Address address = entityManager.find(Address.class, query.getAddressId());
         return new AddressByIdQueryResult(address.getAddressId(),
                 address.getPersonId(), address.getStreetAndNumber(), address.getZipCode());

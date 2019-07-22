@@ -1,9 +1,13 @@
 package com.github.axonmulti.address.aggregate;
 
 import com.github.axonmulti.core.command.CreatePrivateAddressCommand;
+import com.github.axonmulti.core.command.RejectPrivateAddressCommand;
+import com.github.axonmulti.core.command.RequestPrivateAddressValidationCommand;
 import com.github.axonmulti.core.command.ValidatePrivateAddressCommand;
 import com.github.axonmulti.core.event.PrivateAddressCreatedEvent;
+import com.github.axonmulti.core.event.PrivateAddressRejectedEvent;
 import com.github.axonmulti.core.event.PrivateAddressValidatedEvent;
+import com.github.axonmulti.core.event.PrivateAddressValidationRequestedEvent;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandHandler;
@@ -25,7 +29,7 @@ public class Address {
     enum ValidationStatus {
         Initial,
         Validated,
-        ToBeDeleted
+        Rejected
     }
 
     @Id
@@ -54,11 +58,25 @@ public class Address {
     }
 
     @CommandHandler
-    public void handle(ValidatePrivateAddressCommand command){
-        log.debug("[Address][Aggregate][Command] Processing validate private address command: {}", command);
+    public void handle(RequestPrivateAddressValidationCommand command) {
+        log.debug("[Address][Aggregate][Command] Processing request for private address validation command: {}", command);
 
-        // maybe some validation logic here
-        AggregateLifecycle.apply(new PrivateAddressValidatedEvent(command.getAddressId(), this.addressId));
+        // delegate validation of this address to saga
+        AggregateLifecycle.apply(new PrivateAddressValidationRequestedEvent(command.getAddressId(), this.personId));
+    }
+
+    @CommandHandler
+    public void handle(ValidatePrivateAddressCommand command){
+        log.debug("[Address][Aggregate][Command] Processing validate address command: {}", command);
+
+        AggregateLifecycle.apply(new PrivateAddressValidatedEvent(command.getAddressId(), this.personId));
+    }
+
+    @CommandHandler
+    public void handle(RejectPrivateAddressCommand command){
+        log.debug("[Address][Aggregate][Command] Processing reject address command: {}", command);
+
+        AggregateLifecycle.apply(new PrivateAddressRejectedEvent(command.getAddressId(), this.personId));
     }
 
     @EventHandler
@@ -72,8 +90,14 @@ public class Address {
     }
 
     @EventHandler
-    public void on(PrivateAddressValidatedEvent event){
+    public void on(PrivateAddressValidatedEvent event) {
         log.debug("[Address][Aggregate][Event] Processing validate address event: {}", event);
         this.validationStatus = ValidationStatus.Validated;
+    }
+
+    @EventHandler
+    public void on(PrivateAddressRejectedEvent event) {
+        log.debug("[Address][Aggregate][Event] Processing reject address event: {}", event);
+        this.validationStatus = ValidationStatus.Rejected;
     }
 }

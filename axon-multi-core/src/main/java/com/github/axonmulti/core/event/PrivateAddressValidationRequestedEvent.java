@@ -3,7 +3,7 @@ package com.github.axonmulti.core.event;
 import lombok.Value;
 
 @Value
-public class PrivateAddressValidatedEvent {
+public class PrivateAddressValidationRequestedEvent {
 
     private final String addressId;
 

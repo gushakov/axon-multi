@@ -1,10 +1,7 @@
 package com.github.axonmulti.projection.handler;
 
 import com.github.axonmulti.core.event.PrivateAddressAssignedEvent;
-import com.github.axonmulti.core.query.AddressByIdQuery;
-import com.github.axonmulti.core.query.AddressByIdQueryResult;
-import com.github.axonmulti.core.query.PersonByIdQuery;
-import com.github.axonmulti.core.query.PersonByIdQueryResult;
+import com.github.axonmulti.core.query.*;
 import com.github.axonmulti.projection.entity.PersonSummary;
 import com.github.axonmulti.projection.repository.PersonSummaryRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +9,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryGateway;
+import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.Collections;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Component
 @RequiredArgsConstructor
@@ -52,6 +54,19 @@ public class PersonSummaryProjectionHandler {
                     personSummaryRepository.save(personSummary);
                     log.debug("[Projection][Person summary] Saved person summary: {}", personSummary);
                 });
+    }
+
+
+    @QueryHandler
+    public AllAddressesByPersonIdQueryResult handle(AllAddressesByPersonIdQuery query){
+        log.debug("[Projection][Person summary] Process query for all assigned addresses: {}", query);
+
+        Iterable<PersonSummary> summaries = personSummaryRepository.findAllById(Collections.singleton(query.getPersonId()));
+
+        return new AllAddressesByPersonIdQueryResult(query.getPersonId(),
+                StreamSupport.stream(summaries.spliterator(), false)
+                        .map(PersonSummary::getAddressId).collect(Collectors.toList()));
+
     }
 
 }
