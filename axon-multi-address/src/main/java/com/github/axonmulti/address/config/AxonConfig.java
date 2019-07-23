@@ -2,12 +2,15 @@ package com.github.axonmulti.address.config;
 
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
+import org.axonframework.common.jpa.EntityManagerProvider;
 import org.axonframework.extensions.amqp.eventhandling.AMQPMessageConverter;
 import org.axonframework.extensions.amqp.eventhandling.spring.SpringAMQPMessageSource;
+import org.axonframework.springboot.util.jpa.ContainerManagedEntityManagerProvider;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +20,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class AxonConfig {
 
     private static final String AXON_QUEUE = "addressQueue";
+
+    // Copied from excluded org.axonframework.springboot.autoconfig.JpaAutoConfiguration
+
+    @ConditionalOnMissingBean
+    @Bean
+    public EntityManagerProvider entityManagerProvider() {
+        return new ContainerManagedEntityManagerProvider();
+    }
 
     // Queue
 
