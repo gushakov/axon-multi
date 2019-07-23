@@ -2,11 +2,8 @@ package com.github.axonmulti.saga.config;
 
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
-import org.axonframework.common.jpa.EntityManagerProvider;
 import org.axonframework.extensions.amqp.eventhandling.AMQPMessageConverter;
 import org.axonframework.extensions.amqp.eventhandling.spring.SpringAMQPMessageSource;
-import org.axonframework.modelling.saga.repository.jpa.JpaSagaStore;
-import org.axonframework.serialization.Serializer;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.QueueBuilder;
@@ -45,17 +42,5 @@ public class AxonConfig {
             }
         };
     }
-
-    // Also need to setup a Saga persistence
-    // Copied from org.axonframework.springboot.autoconfig.JpaAutoConfiguration
-
-    @Bean
-    public JpaSagaStore sagaStore(Serializer serializer, EntityManagerProvider entityManagerProvider) {
-        return JpaSagaStore.builder()
-                .entityManagerProvider(entityManagerProvider)
-                .serializer(serializer)
-                .build();
-    }
-
 
 }

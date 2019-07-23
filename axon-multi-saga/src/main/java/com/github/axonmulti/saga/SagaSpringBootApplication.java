@@ -10,11 +10,11 @@ import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConf
 
 @SpringBootApplication(scanBasePackages = {"com.github.axonmulti.common", "com.github.axonmulti.saga"},
         exclude = {ErrorMvcAutoConfiguration.class
-                , JpaEventStoreAutoConfiguration.class
-                , JpaAutoConfiguration.class
-                , JdbcAutoConfiguration.class
+//                , JpaEventStoreAutoConfiguration.class
+//                , JdbcAutoConfiguration.class
+//                , JpaAutoConfiguration.class
         })
-@RegisterDefaultEntities(packages = {"org.axonframework.modelling.saga.repository.jpa"})
+//@RegisterDefaultEntities(packages = {"org.axonframework.modelling.saga.repository.jpa"})
 public class SagaSpringBootApplication {
 
     public static void main(String[] args) {

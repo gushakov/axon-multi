@@ -17,11 +17,13 @@ public class CommonAxonConfig {
 
     // Copied from excluded org.axonframework.springboot.autoconfig.JpaAutoConfiguration
 
+/*
     @ConditionalOnMissingBean
     @Bean
     public EntityManagerProvider entityManagerProvider() {
         return new ContainerManagedEntityManagerProvider();
     }
+*/
 
     // Set all event processors to subscribing mode
 
