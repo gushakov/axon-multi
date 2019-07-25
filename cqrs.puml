@@ -45,7 +45,7 @@ E <.left. P: "listen"
 
 A -left-> E: "apply"
 
-E .right.> A: "listen"
+A .left.> E: "listen"
 
 S .down.> E: "listen"
 
@@ -73,6 +73,16 @@ endnote
 note left of S
 1..*
 workflow
+endnote
+
+note right of C
+Axon server
+infrastructure
+endnote
+
+note right of Q
+Axon server
+infrastructure
 endnote
 
 

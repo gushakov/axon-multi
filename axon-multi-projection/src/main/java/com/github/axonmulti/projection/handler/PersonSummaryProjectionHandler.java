@@ -60,7 +60,7 @@ public class PersonSummaryProjectionHandler {
     public AllAddressesByPersonIdQueryResult handle(AllAddressesByPersonIdQuery query){
         log.debug("[Projection][Person summary] Process query for all assigned addresses: {}", query);
 
-        Iterable<PersonSummary> summaries = personSummaryRepository.findAllById(Collections.singleton(query.getPersonId()));
+        Iterable<PersonSummary> summaries = personSummaryRepository.findAllByPersonId(query.getPersonId());
 
         return new AllAddressesByPersonIdQueryResult(query.getPersonId(),
                 StreamSupport.stream(summaries.spliterator(), false)

@@ -7,10 +7,7 @@ import com.github.axonmulti.person.dto.PersonDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.UUID;
@@ -30,7 +27,7 @@ public class PersonController {
     }
 
     @PostMapping("/person/{personId}/address")
-    public Future<String> assignPrivateAddress(@RequestParam String personId, @RequestBody @Valid AddressDto dto) {
+    public Future<String> assignPrivateAddress(@PathVariable String personId, @RequestBody @Valid AddressDto dto) {
         log.debug("[Person][API] Request to assign new private address, person: {}, address: {}", personId, dto);
         return commandGateway.send(new RequestPrivateAddressAssignmentCommand(personId,
                 dto.getStreetAndNumber(),
