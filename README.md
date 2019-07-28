@@ -3,8 +3,12 @@ Axon Multi-services
 
 :construction: **Attention: under construction** :construction:
 
+### Introduction
+
 Playground application with uses Axon framework to demonstrates a way of building a distributed event-driven 
 system around the concepts of domain-driven design and CQRS. 
+
+### Application structure
 
 There are several modules, they are standalone Spring Boot applications or libraries:
 
@@ -18,8 +22,8 @@ There are several modules, they are standalone Spring Boot applications or libra
 
 ### Axon configuration
 
-- Using Axon Server version 4.1 without event sourcing infrastructure
-- Aggregates and Saga persist their states in the separate schemas of the central H2 database
+- Using Axon Server version 4.1 _without event sourcing infrastructure_
+- Aggregates, projections, and Sagas persist their states in the separate schemas of the central H2 database
 
 ### CQRS and messaging infrastructure
 
@@ -37,9 +41,10 @@ This is how assigning private address to a person Saga proceeds:
 
 ![address_saga](https://github.com/gushakov/axon-multi/blob/master/address_saga.png)
 
-### Docker
+### Build and run with Docker
 
-Run `docker-compose up`.
+- Run `mvn package` on the project
+- Run `docker-compose up`
 
 ### H2 database
 
