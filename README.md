@@ -13,12 +13,11 @@ system around the concepts of domain-driven design and CQRS.
 There are several modules, they are standalone Spring Boot applications or libraries:
 
 - `common`: module containing configuration (Maven dependencies) common to other modules
-- `core`: module with all commands and event shared by other modules
+- `core`: module with all commands and events shared by other modules
 - `db`: H2 file database running as a TCP server
 - `address`: microservice around "address" aggregate
 - `person`: microservice around "person" aggregate
 - `saga`: Saga implementation of a business transaction (private address assignment)
-
 
 ### Axon configuration
 
@@ -31,9 +30,10 @@ This is the overview of the system:
 
 ![architecture](https://github.com/gushakov/axon-multi/blob/master/cqrs.png)
 
-### API:
+### API
 
-Access Swagger UI: at http://localhost:8080/swagger-ui.html
+- http://localhost:8080/swagger-ui.html (Person)
+- http://localhost:8081/swagger-ui.html (Address)
 
 ### Saga
 
