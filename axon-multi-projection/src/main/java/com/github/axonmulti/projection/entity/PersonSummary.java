@@ -14,8 +14,6 @@ public class PersonSummary {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "projection_generator")
-//    @SequenceGenerator(name = "projection_generator", sequenceName = "projection_sequence")
     private Long id;
 
     private String personId;

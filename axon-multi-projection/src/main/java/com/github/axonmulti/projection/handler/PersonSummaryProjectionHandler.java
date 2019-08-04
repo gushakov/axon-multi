@@ -1,6 +1,7 @@
 package com.github.axonmulti.projection.handler;
 
 import com.github.axonmulti.core.event.PrivateAddressAssignedEvent;
+import com.github.axonmulti.core.event.PrivateAddressValidatedEvent;
 import com.github.axonmulti.core.query.*;
 import com.github.axonmulti.projection.entity.PersonSummary;
 import com.github.axonmulti.projection.repository.PersonSummaryRepository;
@@ -29,8 +30,8 @@ public class PersonSummaryProjectionHandler {
     private final QueryGateway queryGateway;
 
     @EventHandler
-    public void on(PrivateAddressAssignedEvent event){
-        log.debug("[Projection][Person summary] Record private address assigned event: {}", event);
+    public void on(PrivateAddressValidatedEvent event){
+        log.debug("[Projection][Person summary] Record private address validated event: {}", event);
 
         // query for the person with the matching ID
         Mono<PersonByIdQueryResult> findPersonMono = Mono.fromFuture(queryGateway
